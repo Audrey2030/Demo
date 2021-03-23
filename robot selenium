@@ -1,0 +1,54 @@
+
+*** Settings ***
+Library    SeleniumLibrary
+#Resource    ../Rescourse/Rescourse.py
+Documentation    This file is for testing ABC feature
+
+*** Variables ***
+${Browser}  Chrome
+${URL}    http://www.YYYYY.com/
+${URL_1}    https://www.XXXXX.com
+${UserNamet}    ABC
+${Password}      xxxx
+${waitingTime}  5 seconds
+${Page Contains}    Login
+${screenShot}  ./Screenshot/TC_001.png
+
+
+
+*** Test Cases ***
+TC_001 Login Page
+    [Documentation]    This test case for validate Login
+
+    [Setup]           Open Browsers    ${URL}   ${Browser}     ${Page Contains}
+    [Teardown]        Close Browser    ${screenShot}
+                      Login Page       ${UserNamet}     ${Password}     ${waitingTime}
+
+
+
+*** Keywords ***
+Open Browsers
+    #[Documentation]     This t
+    [Arguments]    ${URL}   ${Browser}     ${Page Contains}
+    Open Browser     ${URL}  ${Browser}
+    page should contain   ${Page Contains}
+    Maximize Browser Window
+    set selenium implicit wait    ${waitingTime}
+
+Close Browser
+    [Arguments]     ${screenShot}
+    seleniumlibrary.capture page screenshot    ${screenShot}
+    close all browsers
+
+Login Page
+    [Arguments]    ${UserNamet}     ${Password}     ${waitingTime}
+    seleniumlibrary.input text   login   ${UserNamet}
+    seleniumlibrary.input password    password     ${Password}
+    seleniumlibrary.click button    //input[@value="sign-in"]
+    set selenium implicit wait      ${waitingTime}
+    get window handles
+
+
+
+
+
